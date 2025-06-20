@@ -19,16 +19,14 @@ async function bootstrap() {
     },
   });
 
-  // app.connectMicroservice<MicroserviceOptions>({
-  //   transport: Transport.RMQ,
-  //   options: {
-  //     urls: ['amqp://admin:admin@localhost:5672'],
-  //     queue: 'users_queue',
-  //     queueOptions: {
-  //       durable: true,
-  //     },
-  //   },
-  // });
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.GRPC,
+    options: {
+      url: 'localhost:6000',
+      package: 'ticket',
+      protoPath: join(__dirname, 'ticket/__protos__/ticket.proto'),
+    },
+  });
 
   await app.startAllMicroservices();
   await app.listen(4000);

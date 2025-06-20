@@ -14,7 +14,9 @@ export class TicketService implements OnModuleInit {
 
   async onModuleInit() {
     const conn = await amqp.connect(process.env.RABBIT_URI);
+
     this.channel = await conn.createChannel();
+    
     await this.channel.assertQueue(this.QUEUE, { durable: true });
   }
 

@@ -1,17 +1,21 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+// src/ticket/ticket.controller.ts
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { TicketService } from './ticket.service';
+import { ReturnUser } from 'src/user/__dtos__/return-user.dto';
 
-@Controller('ticket')
+@Controller()
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+    constructor(private readonly ticketService: TicketService) { }
 
-  @Post(':id')
-  async place(@Param('id') id: string) {
-    return this.ticketService.placeUserInQueue(id);
-  }
+    @GrpcMethod('TicketService', 'PlaceUserInQueue')
+    async placeUserInQueue(data: { id: string }): Promise<{ message: string }> {
+        return this.ticketService.placeUserInQueue(data.id);
+    }
 
-  @Get()
-  async fetchAll() {
-    return this.ticketService.getUsersInQueue();
-  }
+    @GrpcMethod('TicketService', 'GetUsersInQueue')
+    async getUsersInQueue(): Promise<{ users: ReturnUser[] }> {
+        const users = await this.ticketService.getUsersInQueue();
+        return { users };
+    }
 }

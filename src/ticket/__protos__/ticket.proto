@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ticket;
+
+service TicketService {
+  rpc PlaceUserInQueue (UserIdRequest) returns (TicketResponse);
+  rpc GetUsersInQueue (Empty) returns (UserList);
+}
+
+message UserIdRequest {
+  string id = 1;
+}
+
+message TicketResponse {
+  string message = 1;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string cellphone = 4;
+  string cpf = 5;
+}
+
+message UserList {
+  repeated User users = 1;
+}
+
+message Empty {}
