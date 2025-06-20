@@ -20,7 +20,7 @@ export class UserService {
     }
 
     public findOne(id: string): ReturnUser {
-        const user = UserService.users.find((u) => u.id === id);
+        const user = UserService.users.find((user) => user.id === id);
 
         if (!user) {
             throw new NotFoundException(`User with id ${id} not found`);
@@ -34,7 +34,7 @@ export class UserService {
     }
 
     public update(id: string, updateData: Partial<CreateUserDto>): ReturnUser {
-        const index = UserService.users.findIndex((u) => u.id === id);
+        const index = UserService.users.findIndex((user) => user.id === id);
 
         if (index === -1) {
             throw new NotFoundException(`User with id ${id} not found`);
@@ -49,7 +49,7 @@ export class UserService {
     }
 
     public delete(id: string): void {
-        const index = UserService.users.findIndex((u) => u.id === id);
+        const index = UserService.users.findIndex((user) => user.id === id);
 
         if (index === -1) {
             throw new NotFoundException(`User with id ${id} not found`);

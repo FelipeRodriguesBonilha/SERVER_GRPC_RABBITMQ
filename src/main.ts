@@ -6,6 +6,10 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: 'http://localhost:3000',
+  });
+
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC,
     options: {
@@ -15,17 +19,18 @@ async function bootstrap() {
     },
   });
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.RMQ,
-    options: {
-      urls: ['amqp://admin:admin@localhost:5672'],
-      queue: 'users_queue',
-      queueOptions: {
-        durable: true,
-      },
-    },
-  });
+  // app.connectMicroservice<MicroserviceOptions>({
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: ['amqp://admin:admin@localhost:5672'],
+  //     queue: 'users_queue',
+  //     queueOptions: {
+  //       durable: true,
+  //     },
+  //   },
+  // });
 
   await app.startAllMicroservices();
+  await app.listen(4000);
 }
 bootstrap();
